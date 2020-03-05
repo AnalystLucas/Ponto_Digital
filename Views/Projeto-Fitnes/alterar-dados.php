@@ -331,7 +331,24 @@ $dadosfunc = mysqli_fetch_array($result);
       var id_funcionario = $(this).attr("id-func");
       
       $("#btn_salvaralt").attr("id-func-alterar", id_funcionario);
-    
+      
+      var dados = {
+        id_funcionario: id_funcionario
+      }
+      
+      $.ajax({
+        url: "../../Modal/buscar_funcionario.php",
+        type: "POST",
+        data: dados,
+        dataType: 'json',
+        success:function(resposta){
+          // console.log(resposta);
+          $("#nome").val(resposta.nome);
+          $("#setor").val(resposta.setor);
+          $("#cargo").val(resposta.cargo);
+        }
+
+      })//fim do ajax;
     });
     $("#btn_salvaralt").click(function(e){
       e.preventDefault();
@@ -348,16 +365,23 @@ $dadosfunc = mysqli_fetch_array($result);
         cargo: cargo
       }
 
-      console.log(dados);
-      // $.ajax({
-      //   url: "",
-      //   type: "POST",
-      //   data: dados,
-      //   success:function(resposta){
-      //     alert(resposta);
-      //   }
+      // console.log(dados);
+      
+      $.ajax({
+        url: "../../Modal/alterar.php",
+        type: "POST",
+        data: dados,
+        dataType: 'json',
+        success:function(resposta){
+          if(resposta.retorno == true){
+            alert(resposta.message);
+          }else{
+            alert(resposta.message);
+          }
+        }
 
-      // })//fim do ajax;
+      })//fim do ajax;
+    
     });
         
 
