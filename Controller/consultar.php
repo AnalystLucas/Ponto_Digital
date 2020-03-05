@@ -28,6 +28,8 @@ class Consultar {
         if($rowsbd > 0){
             $this->resultado = $result;
         }
+        //fechando conexão
+        mysqli_close($conn->conexao());
     }
     public function queryTable($table){
         $conn = new Conex();
@@ -40,6 +42,9 @@ class Consultar {
         if($rowsbd > 0){
             $this->resultado = $result;
         }
+
+        //fechando conexão
+        mysqli_close($conn->conexao());
     }
     public function queryRelacional($tableOne, $tableTwo, $columnOne){
         //Caso queira consultar campos e tabelas diferentes trazer por relação
@@ -57,6 +62,20 @@ class Consultar {
         //fechando conexão
         mysqli_close($conn->conexao());
     }
+    public function queryWhere($table, $column, $field){
+        $conn = new Conex();
+        
+        $sql = "SELECT * FROM $table WHERE $column = '$field'";
+        $result = mysqli_query($conn->conexao(), $sql);
+
+        $rowsbd = mysqli_num_rows($result);
+
+        if($rowsbd > 0){
+            $this->resultado = $result;
+        }
+        mysqli_close($conn->conexao());
+    }
+
     public function resultado(){
         return $this->resultado;
     }
