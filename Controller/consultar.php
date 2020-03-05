@@ -54,6 +54,8 @@ class Consultar {
         if($rowsbd > 0){
             $this->resultado = $result;
         }
+        //fechando conexão
+        mysqli_close($conn->conexao());
     }
     public function resultado(){
         return $this->resultado;

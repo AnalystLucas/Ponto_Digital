@@ -64,7 +64,8 @@ Class Login {
             $resultado = ["message"=>"Nenhum registro localizado","retorno"=>false];
             $this->resultado = json_encode($resultado);
         }
-
+        
+        mysqli_close($conn->conexao());
     }
     public function resultado(){
         return $this->resultado;

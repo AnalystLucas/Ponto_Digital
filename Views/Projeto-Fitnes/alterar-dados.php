@@ -56,15 +56,14 @@ $dadosfunc = mysqli_fetch_array($result);
     <ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
 
       <!-- Sidebar - Brand -->
-      <a class="sidebar-brand d-flex align-items-center justify-content-center" href="reservas.html">
+      <a class="sidebar-brand d-flex align-items-center justify-content-center" href="#">
         <div class="sidebar-brand-icon rotate-n-15">
           <i class="fas fa-parking"></i>
         </div>
         <div class="sidebar-brand-text mx-3">Ponto Digital</div>
       </a>
 
-      <!-- Divider -->
-      <hr class="sidebar-divider my-0">
+
         
       <!-- Divider -->
       <hr class="sidebar-divider">
@@ -73,7 +72,7 @@ $dadosfunc = mysqli_fetch_array($result);
 
       <!-- Nav Item - Tables -->
       <li class="nav-item">
-        <a class="nav-link" href="cadastro-funcionario.html">
+        <a class="nav-link" href="cadastro-funcionario.php">
           <i class="fas fa-fw fa-table"></i>
           <span>Cadastrar funcionário</span></a>
       </li>
@@ -185,26 +184,39 @@ $dadosfunc = mysqli_fetch_array($result);
               <h6 class="m-0 font-weight-bold text-primary">Tabela de Funcionários</h6>
             </div>
             <div class="card-body">
-              <div class="row" id="alterar-custom">
-                
-                <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 align-items-center">
-                  <input type="text" class="form-control form-control-user align-items-center margin-form-custom" id="nome" placeholder="Nome Completo">
-                </div>
-                
-                <div class="col-xs-12 col-sm-4 col-md-4 col-lg-4 align-items-center">
-                  <input type="text" class="form-control margin-form-custom form-control-user align-items-center" id="matricula" placeholder="Matricula">
-                </div>
+              <div class="" id="alterar-custom">
+                <form method="POST" class="user">
+                  <div class="form-group">
+                    <div class="col-xs-10 col-sm-10 col-md-10 col-lg-10 align-items-center">
+                      <input type="text" class="form-control form-control-user align-items-center margin-form-custom" id="nome" placeholder="Nome Completo">
+                    </div>
+                  </div>
 
-                <div class="col-xs-12 col-sm-4 col-md-4 col-lg-4 align-items-center">
-                  <input type="text" class="form-control margin-form-custom form-control-user align-items-center" id="cpf" placeholder="cpf">
-                </div>
+                  <div class="form-group">
+                    <div class="col-xs-10 col-sm-10 col-md-10 col-lg-10 align-items-center">
+                      <input type="text" class="form-control margin-form-custom form-control-user align-items-center" id="matricula" value="<?php echo $dadosfunc['matricula'];?>" disabled>
+                    </div>
+                  </div>
 
-                <div class="col-xs-12 col-sm-4 col-md-4 col-lg-4 align-items-center">
-                  <input type="text" class="form-control margin-form-custom form-control-user align-items-center" id="cargo" placeholder="Cargo">
-                </div>
-                <div class=" col-xs-12 col-sm-12 col-md-12 col-lg-12">
-                  <button onclick="sumirrdiv()" style="float: right; margin: 20px;" class="btn btn-success">Salvar</button>
-                </div>
+                  <div class="form-group">
+                    <div class="col-xs-10 col-sm-10 col-md-10 col-lg-10 align-items-center">
+                      <input type="text" class="form-control margin-form-custom form-control-user align-items-center" id="setor" placeholder="setor">
+                    </div>
+                  </div>
+
+                  <div class="form-group">
+                    <div class="col-xs-10 col-sm-10 col-md-10 col-lg-10 align-items-center">
+                      <input type="text" class="form-control margin-form-custom form-control-user align-items-center" id="cargo" placeholder="Cargo">
+                    </div>
+                  </div>
+
+                  <div class="form-group">
+                    <div class="col-xs-2 col-sm-2 col-md-2 col-lg-2" style="float: left; margin-left: 0%;">
+                      <button id="btn_salvaralt" id-func-alterar="" class="btn btn-user btn-block btn-primary">Salvar</button>
+                    </div>
+                  </div>
+
+                </form>
               </div>
               
               <div class="table-responsive">
@@ -230,7 +242,7 @@ $dadosfunc = mysqli_fetch_array($result);
                         <td><?php echo $dadosfunc['situacao'] ?></td>
                         
                         <td style="text-align: center;">
-                          <button onclick="exibirdiv()" class="btn btn-warning">Alterar</button>
+                          <button id="btn_alterar" class="btn btn-warning" id-func="<?php echo $dadosfunc['id_funcionario']?>">Alterar</button>
                           <button class="btn btn-danger">Excluir</button>
                         </td>
 
@@ -251,6 +263,7 @@ $dadosfunc = mysqli_fetch_array($result);
 
                 </table>
               </div>
+
             </div>
           </div>
 
@@ -308,15 +321,45 @@ $dadosfunc = mysqli_fetch_array($result);
   <script src="vendor/jquery-easing/jquery.easing.min.js"></script>
   <script type="text/javascript">
     
-    $('#alterar-custom').hide();
+    $(document).ready(function(){
+      $('#alterar-custom').hide();
+    })
 
-    function exibirdiv(){
-        $('#alterar-custom').show();
+    $("#btn_alterar").click(function(){
+      $('#alterar-custom').show();
+      
+      var id_funcionario = $(this).attr("id-func");
+      
+      $("#btn_salvaralt").attr("id-func-alterar", id_funcionario);
+    
+    });
+    $("#btn_salvaralt").click(function(e){
+      e.preventDefault();
+
+      var id = $(this).attr("id-func-alterar");
+      var nome = $("#nome").val();
+      var setor = $("#setor").val();
+      var cargo = $("#cargo").val();
+      
+      var dados = {
+        id_funcionario: id,
+        nome: nome,
+        setor: setor,
+        cargo: cargo
       }
 
-      function sumirrdiv(){
-        $('#alterar-custom').hide();
-      }
+      console.log(dados);
+      // $.ajax({
+      //   url: "",
+      //   type: "POST",
+      //   data: dados,
+      //   success:function(resposta){
+      //     alert(resposta);
+      //   }
+
+      // })//fim do ajax;
+    });
+        
 
   </script>
 
