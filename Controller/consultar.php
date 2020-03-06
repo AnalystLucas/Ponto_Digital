@@ -27,6 +27,8 @@ class Consultar {
 
         if($rowsbd > 0){
             $this->resultado = $result;
+        }else{
+            $this->resultado = $result;
         }
         //fechando conexão
         mysqli_close($conn->conexao());
@@ -40,6 +42,8 @@ class Consultar {
         $rowsbd = mysqli_num_rows($result);
 
         if($rowsbd > 0){
+            $this->resultado = $result;
+        }else{
             $this->resultado = $result;
         }
 
@@ -58,6 +62,8 @@ class Consultar {
 
         if($rowsbd > 0){
             $this->resultado = $result;
+        }else{
+            $this->resultado = $result;
         }
         //fechando conexão
         mysqli_close($conn->conexao());
@@ -71,6 +77,8 @@ class Consultar {
         $rowsbd = mysqli_num_rows($result);
 
         if($rowsbd > 0){
+            $this->resultado = $result;
+        }else{
             $this->resultado = $result;
         }
         mysqli_close($conn->conexao());
