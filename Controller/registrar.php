@@ -6,6 +6,7 @@ require_once "cadastrar_user.php";
 
 class Registrar{
     public $resultado;
+    public $verificar;
 
     public function __construct($name, $user, $sector, $occupation)
     {
@@ -18,18 +19,25 @@ class Registrar{
         $sector = mysqli_real_escape_string($conn->conexao(), $sector);
         $occupation = mysqli_real_escape_string($conn->conexao(), $occupation);
         
-
+ 
         $table = "funcionarios";
         $column = "matricula";
         $field = $user;
         
         $query->queryOne($table, $column, $field);
+        $rowsbd = mysqli_num_rows( $query->resultado());
 
-        if($query->resultado() == false){
+        if($rowsbd > 0){
+            $this->verificar = true;       
+        }else{
+            $this->verificar = false;
+        }
 
-            $sql = "INSERT INTO funcionarios (`id_usuario`, `nome`, `matricula`, `setor`, `cargo`) VALUES (NULL,'$name','$user','$sector','$occupation')";
+        if($this->verificar == false){
+            
+            $sql = "INSERT INTO `funcionarios`(`id_funcionario`, `nome`, `matricula`, `setor`, `cargo`) VALUES (NULL,'$name','$user','$sector','$occupation')";
             $result = mysqli_query($conn->conexao(), $sql);
-                
+            
             if($result == true){
                 $situacao = "Ativo";
                 $perfil = "User";
@@ -48,8 +56,9 @@ class Registrar{
             $retorno = ["message"=>"Matricula encontra-se registrada","retorno"=>false];
             $this->resultado = json_encode($retorno);
         }
+        // fechando conexao
+        mysqli_close($conn->conexao());
         
-
     }
 
     public function resultado(){
