@@ -6,6 +6,10 @@ session_start();
 if(!isset($_SESSION['logado'])){
   header("location: login.php");
 }
+else if($_SESSION['perfil'] != "master" || $_SESSION['perfil'] != "Master"){
+  header("location: registrar-ponto.php");
+}
+
 $matricula = $_SESSION['matricula'];
 
 $query = new Consultar();

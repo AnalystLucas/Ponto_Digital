@@ -50,6 +50,7 @@ Class Login {
                     
                     $_SESSION['logado'] = true;
                     $_SESSION['matricula'] = $dadosbd['matricula'];
+                    $_SESSION['perfil'] = $dadosbd['perfil'];
 
                 }else{
                     $resultado = ["message"=>"Não esta disponivel o acesso no momento, verificar com administração","perfil"=>$this->verificarperfil,"retorno"=>false];
