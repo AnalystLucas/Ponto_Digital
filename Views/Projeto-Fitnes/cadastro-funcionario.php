@@ -261,35 +261,51 @@ $dadosfunc = mysqli_fetch_array($query->resultado())
         var matricula = $("#matricula").val();
         var setor = $("#setor").val();
         var cargo = $("#cargo").val();
-
+        
         var dadosfunc = {
           nome: nome,
           matricula: matricula,
           setor: setor,
           cargo: cargo
         }
+        
+        if(nome == ""){
+          alert("Campo Nome esta sem preencher !");
+          $("#nome").focus();
+        }else if(matricula == ""){
+          alert("Campo Matricula esta sem preencher !");
+          $("#matricula").focus();
+        }else if(setor == ""){
+          alert("Campo Setor esta sem preencher !");
+          $("#setor").focus();
+        }else if(cargo == ""){
+          alert("Campo Cargo esta sem preencher !");
+          $("#cargo").focus();
+        }else{
+        
+          $.ajax({
+            url: "../../modal/registro.php",
+            type: "POST",
+            data: dadosfunc,
+            dataType: "json",
+            success:function(resposta){
 
-        $.ajax({
-          url: "../../modal/registro.php",
-          type: "POST",
-          data: dadosfunc,
-          dataType: "json",
-          success:function(resposta){
-
-            if(resposta.retorno == true){
-              alert(resposta.message);
+              if(resposta.retorno == true){
+                alert(resposta.message);
+                
+                $("#nome").val("");
+                $("#matricula").val("");
+                $("#setor").val("");
+                $("#cargo").val("");
               
-              $("#nome").val("");
-              $("#matricula").val("");
-              $("#setor").val("");
-              $("#cargo").val("");
-            
-            }else{
-              alert(resposta.message);
+              }else{
+                alert(resposta.message);
+              }
+              
             }
-            
-          }
-        });
+          });//fim do ajax !
+
+        };//fim do if que verifica os campos !
 
       });//fim do click
 
