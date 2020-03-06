@@ -243,7 +243,7 @@ $dadosfunc = mysqli_fetch_array($result);
                         
                         <td style="text-align: center;">
                           <button id="btn_alterar" class="btn btn-warning" id-func="<?php echo $dadosfunc['id_funcionario']?>">Alterar</button>
-                          <button class="btn btn-danger">Excluir</button>
+                          <button id="btn_des-ativar" class="btn btn-danger" id-matricula="<?php echo $dadosfunc['matricula'] ?>" id-situacao="<?php echo $dadosfunc['situacao']?>" id-nome="<?php echo $dadosfunc['nome'] ?>">Ativar/Desativar</button>
                         </td>
 
                       </tr>
@@ -375,6 +375,7 @@ $dadosfunc = mysqli_fetch_array($result);
         success:function(resposta){
           if(resposta.retorno == true){
             alert(resposta.message);
+            location.reload();
           }else{
             alert(resposta.message);
           }
@@ -382,6 +383,59 @@ $dadosfunc = mysqli_fetch_array($result);
 
       })//fim do ajax;
     
+    });
+
+    $("#btn_des-ativar").click(function(){
+
+      var matricula = $(this).attr("id-matricula");
+      var situacao = $(this).attr("id-situacao");
+      var nome = $(this).attr("id-nome");
+      var des_ativar = "";
+      
+      if(situacao == "Ativo" || situacao == "ativo"){
+        situacao = "Inativo";
+        des_ativar = "Inativar";
+      }else{
+        situacao = "Ativo";
+        des_ativar = "Ativar";
+      }
+
+      var dados = {
+        matricula: matricula,
+        situacao: situacao,
+        nome: nome
+      }
+
+      // console.log(dados);
+
+      var confirmacao = confirm("Você realmente deseja " + des_ativar + " o funcionário " + nome);
+      console.log(confirmacao);
+
+      if(confirmacao == true){
+      
+        $.ajax({
+          url: "../../Modal/desativar_ativar.php",
+          type: "POST",
+          data: dados,
+          dataType: 'json',
+          success:function(resposta){
+            if(resposta.retorno == true){
+              alert(resposta.message);
+              location.reload();
+            }else{
+              alert(resposta.message);
+            }
+          }
+        });//fim do ajax
+      
+      }else{
+        
+      }
+      
+
+ 
+
+
     });
         
 
