@@ -124,7 +124,7 @@
 
             }else if(resposta.retorno == true && resposta.perfil == false){
               alert(resposta.message);
-              menufunc = "registro_ponto.php";
+              menufunc = "registrar-ponto.php";
               $(window.document.location).attr("href", menufunc);
               
             }else{
