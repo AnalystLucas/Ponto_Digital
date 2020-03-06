@@ -24,6 +24,24 @@ class AlterarDados{
             $this->resultado = json_encode($retorno);
         }
     }
+    public function updateSituacao($matricula,$situacao){
+
+        $conn = new Conex();
+
+        $matricula = mysqli_real_escape_string($conn->conexao(), $matricula);
+        $situacao = mysqli_real_escape_string($conn->conexao(), $situacao);
+
+        $sql = "UPDATE usuarios SET situacao = '$situacao' WHERE matricula = '$matricula'";
+        $result = mysqli_query($conn->conexao(), $sql);
+
+        if($result == true){
+            $retorno = ["message"=>"Operação realizada com sucesso !","retorno"=>true];
+            $this->resultado = json_encode($retorno);
+        }else{
+            $retorno = ["message"=>"Não foi possivel realizar a operação !","retorno"=>false];
+            $this->resultado = json_encode($retorno);
+        }
+    }
     public function resultado(){
         return $this->resultado;
     }
