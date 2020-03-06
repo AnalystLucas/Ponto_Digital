@@ -76,7 +76,7 @@ $dadosfunc = mysqli_fetch_array($result);
       </li>
 
       <li class="nav-item">
-        <a class="nav-link" href="consultar-ponto.html">
+        <a class="nav-link" href="consultar-ponto.php">
           <i class="fas fa-fw fa-table"></i>
           <span>Consutar ponto</span></a>
       </li>
