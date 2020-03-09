@@ -204,7 +204,7 @@ $dadosfunc = mysqli_fetch_array($result);
 
                   <div class="form-group">
                     <div class="col-xs-10 col-sm-10 col-md-10 col-lg-10 align-items-center">
-                      <input type="text" class="form-control margin-form-custom form-control-user align-items-center" id="setor" placeholder="setor">
+                      <input type="text" class="form-control margin-form-custom form-control-user align-items-center" id="setor" placeholder="Setor">
                     </div>
                   </div>
 
