@@ -3,18 +3,26 @@
 require_once "../../Controller/consultar.php";
 require_once "../../Controller/registrar_ponto.php";
 
-$query = new Consultar();
-$query->queryRelacional("funcionarios","pontos","nome");
-//Como o retorno vem pela mesma função para não da conflito separei os resultado
-//resultado_queryr é o retorno da queryRelacional
-$resultado_queryr = $query->resultado();
-
 session_start();
 
 if(!isset($_SESSION['logado'])){
   header("location: login.php");
 }
+
 $matricula = $_SESSION['matricula'];
+
+$query = new Consultar();
+// $query->queryRelacional("funcionarios","pontos","nome");
+
+$data_atual = new DateTime();
+$data_atual = $data_atual->format("d/m/Y");
+$query->queryTwo("pontos", "matricula", "data_ponto", $matricula, $data_atual);
+
+//Como o retorno vem pela mesma função para não da conflito separei os resultado
+//resultado_queryr é o retorno da queryRelacional
+$resultado_queryr = $query->resultado();
+
+
 
 $query->queryOne("funcionarios","matricula", $matricula);
 //result é o retorno da queryOne 
@@ -198,7 +206,7 @@ $dadosfunc = mysqli_fetch_array($result);
                       while( $dadosponto = mysqli_fetch_array($resultado_queryr) ){
                   ?>
                         <tr class="table_hover">
-                          <td><?php echo $dadosponto['nome']; ?> </td>
+                          <td><?php echo $dadosfunc['nome']?> </td>
                           <td><?php echo $dadosponto['entrada']; ?></td>
                           <td><?php echo $dadosponto['intervalo']; ?></td>
                           <td><?php echo $dadosponto['retorno']; ?></td>
