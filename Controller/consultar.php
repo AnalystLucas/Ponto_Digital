@@ -83,6 +83,23 @@ class Consultar {
         }
         mysqli_close($conn->conexao());
     }
+    
+    public function queryTwo($table, $column, $columnTwo, $field, $fieldTwo){
+        $conn = new Conex();
+
+        $sql = "SELECT * FROM `$table` WHERE $column = '$field' and $columnTwo = '$fieldTwo'";
+        // $sql = "SELECT * FROM $table WHERE $column = '$field'";
+        $result = mysqli_query($conn->conexao(), $sql);
+
+        $rowsbd = mysqli_num_rows($result);
+
+        if($rowsbd > 0){
+            $this->resultado = $result;
+        }else{
+            $this->resultado = $result;
+        }
+        mysqli_close($conn->conexao());
+    }
 
     public function resultado(){
         return $this->resultado;
