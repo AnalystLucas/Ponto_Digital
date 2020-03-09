@@ -38,7 +38,7 @@ class RegistrarPonto{
         // die;
         
         if($rowsbd == 0){
-            $sql = "INSERT INTO `pontos`(`id_ponto`, `matricula`, `entrada`, `intervalo`, `retorno`, `saida`, `data_ponto`) VALUES (NULL,'$matricula','$hora','00:00','00:00','00:00','$data')";
+            $sql = "INSERT INTO `pontos`(`id_ponto`, `matricula`, `entrada`, `intervalo`, `retorno`, `saida`, `data_ponto`) VALUES (NULL,'$matricula','$hora','00:00:00','00:00:00','00:00:00','$data')";
             $result = mysqli_query($conn->conexao(), $sql);
 
             if($result == true){
@@ -52,7 +52,7 @@ class RegistrarPonto{
             }
             else if($marcacao == "intervalo" || $marcacao == "Intervalo"){
                 
-                if($dadosponto['intervalo'] == "00:00"){
+                if($dadosponto['intervalo'] == "00:00:00" || $dadosponto['intervalo'] == "00:00" ){
                     
                     $sql = "UPDATE `pontos` SET `intervalo` = '$hora' WHERE matricula = '$matricula' and data_ponto = '$data'";
                     $result = mysqli_query($conn->conexao(), $sql);
@@ -71,7 +71,7 @@ class RegistrarPonto{
             }
             else if($marcacao == "retorno" || $marcacao == "Retorno"){
                 
-                if($dadosponto['retorno'] == "00:00"){
+                if($dadosponto['retorno'] == "00:00:00" || $dadosponto['retorno'] == "00:00"){
                     
                     $sql = "UPDATE `pontos` SET `retorno` = '$hora' WHERE matricula = '$matricula' and data_ponto = '$data'";
                     $result = mysqli_query($conn->conexao(), $sql);
@@ -90,7 +90,7 @@ class RegistrarPonto{
             }
             else if($marcacao == "saida" || $marcacao == "Saida"){
                 
-                if($dadosponto['saida'] == "00:00"){
+                if($dadosponto['saida'] == "00:00:00" || $dadosponto['intervalo'] == "00:00"){
                     
                     $sql = "UPDATE `pontos` SET `saida` = '$hora' WHERE matricula = '$matricula' and data_ponto = '$data'";
                     $result = mysqli_query($conn->conexao(), $sql);
