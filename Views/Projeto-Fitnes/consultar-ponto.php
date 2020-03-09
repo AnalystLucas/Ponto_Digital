@@ -12,8 +12,7 @@ session_start();
 if( !isset($_SESSION['logado']) ){
   header("location: login.php");
 }
-
-else if($_SESSION['perfil'] != "master" || $_SESSION['perfil'] != "Master"){
+if($_SESSION['perfil'] == "User" || $_SESSION['perfil'] == "user"){
   header("location: registrar-ponto.php");
 }
 

@@ -3,12 +3,14 @@ require_once "../../Controller/consultar.php";
 
 session_start();
 
-if(!isset($_SESSION['logado'])){
-  header("location: login.php");
+if( !isset($_SESSION['logado']) ){
+  header("location: index.php");
 }
-else if($_SESSION['perfil'] != "master" || $_SESSION['perfil'] != "Master"){
+if($_SESSION['perfil'] == "User" || $_SESSION['perfil'] == "user"){
   header("location: registrar-ponto.php");
 }
+
+
 
 $matricula = $_SESSION['matricula'];
 
