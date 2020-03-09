@@ -186,7 +186,46 @@ $dadosfunc = mysqli_fetch_array($result);
               <h6 class="m-0 font-weight-bold text-primary">Consultar Ponto</h6>
             </div>
             <div class="card-body">
-                
+              <div class="" id="alterar-custom">
+                <h3> Ajustar ponto para <span id="nome"></span> na data <span id="data-ponto"></span></h3>
+                <form method="POST" class="user">
+                  <div class="form-group">
+                    <div class="col-xs-10 col-sm-10 col-md-10 col-lg-10 align-items-center">
+                      <label for="" class="margin-form-custom">Entrada</label> 
+                      <input type="text" class="form-control form-control-user align-items-center margin-form-custom" id="entrada" placeholder="Entrada">
+                    </div>
+                  </div>
+
+                  <div class="form-group">
+                    <div class="col-xs-10 col-sm-10 col-md-10 col-lg-10 align-items-center">
+                      <label for="" class="margin-form-custom"> Saida Intervalo</label>
+                      <input type="text" class="form-control margin-form-custom form-control-user align-items-center" id="intervalo" placeholder="Intervalo">
+                    </div>
+                  </div>
+
+                  <div class="form-group">
+                    <div class="col-xs-10 col-sm-10 col-md-10 col-lg-10 align-items-center">
+                      <label for="" class="margin-form-custom"> Retorno Intervalo</label>
+                      <input type="text" class="form-control margin-form-custom form-control-user align-items-center" id="retorno" placeholder="Retorno">
+                    </div>
+                  </div>
+
+                  <div class="form-group">
+                    <div class="col-xs-10 col-sm-10 col-md-10 col-lg-10 align-items-center">
+                      <label for="" class="margin-form-custom"> Saida</label>
+                      <input type="text" class="form-control margin-form-custom form-control-user align-items-center" id="saida" placeholder="Saida">
+                    </div>
+                  </div>
+
+                  <div class="form-group">
+                    <div class="col-xs-2 col-sm-2 col-md-2 col-lg-2" style="float: left; margin-left: 0%;">
+                      <button id="btn_salvaralt" id-ponto-alt="" class="btn btn-user btn-block btn-primary">Salvar</button>
+                    </div>
+                  </div>
+
+                </form>
+              </div>
+
               <div class="table-responsive">
                 <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
                   <thead>
@@ -213,7 +252,7 @@ $dadosfunc = mysqli_fetch_array($result);
                         <td><?php echo $dadosponto['retorno']?></td>
                         <td><?php echo $dadosponto['saida']?></td>
                         <td>
-                          <button class="btn btn-warning">Ajustar</button>
+                          <button class="btn-ajuste btn btn-warning" id-nome="<?php echo $dadosponto['nome'];?>" id-data="<?php echo $dadosponto['data_ponto']?>" id-ponto="<?php echo $dadosponto['id_ponto']?>">Ajustar</button>
                         </td>
                       </tr>
                     <?php }?>
@@ -299,6 +338,102 @@ $dadosfunc = mysqli_fetch_array($result);
 
   <!-- Page level custom scripts -->
   <script src="js/demo/datatables-demo.js"></script>
+
+  <script>
+    $(document).ready(function(){
+      $("#alterar-custom").hide();
+    });
+
+    $(".btn-ajuste").click(function(){
+      $("#alterar-custom").show();
+
+      var id_ponto = $(this).attr("id-ponto");
+      var nome = $(this).attr("id-nome");
+      var data = $(this).attr("id-data");
+
+      $("#btn_salvaralt").attr("id-ponto-alt", id_ponto);
+      
+      var dados = {
+        id_ponto: id_ponto
+      }
+      // console.log(dados);
+
+      $.ajax({
+        url: "../../Modal/buscar_ponto.php",
+        type: "POST",
+        data: dados,
+        dataType: "json",
+        success:function(resposta){
+          $("#entrada").val(resposta.entrada);
+          $("#intervalo").val(resposta.intervalo);
+          $("#retorno").val(resposta.retorno);
+          $("#saida").val(resposta.saida);
+
+          $("#nome").text(nome);
+          $("#data-ponto").text(data);
+        }
+      });//fim do ajax
+
+    });
+
+    $("#btn_salvaralt").click(function(e){
+      e.preventDefault();
+
+      var entrada = $("#entrada").val();
+      var intervalo = $("#intervalo").val();
+      var retorno = $("#retorno").val();
+      var saida = $("#saida").val();
+      
+      var id_ponto = $(this).attr("id-ponto-alt")
+      
+      var nome = $("#nome").text();
+      // console.log(nome);
+
+      var dados = {
+        id_ponto: id_ponto,
+        entrada: entrada,
+        intervalo: intervalo,
+        retorno: retorno,
+        saida: saida
+      }
+
+      if(entrada == ""){
+        $("#entrada").focus();
+      }else if(intervalo == ""){
+        $("#intervalo").focus();
+      }else if(retorno == ""){
+        $("#retorno").focus();
+      }else if(saida == ""){
+        $("#saida").focus();
+      }else{
+        var confirmacao = confirm("Alterar marcação/marcações para o funcionário "+ nome);
+        
+        if(confirmacao == true){
+            $.ajax({
+              url: "../../Modal/ajustar.php",
+              type: "POST",
+              data: dados,
+              dataType: "json",
+              success:function(resposta){
+                if(resposta.retorno == true){
+                  alert(resposta.message);
+                  $("#alterar-custom").hide();
+                  location.reload();
+
+                }else{
+                  alert(resposta.message);
+                };
+              }
+            });//fim do ajax
+        }else{
+          //codigo a ser executado
+        }
+
+      }//fim do else que verifica se os campos não estão vazios
+
+    });
+    
+  </script>
 
 </body>
 
