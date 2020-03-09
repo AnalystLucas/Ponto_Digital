@@ -246,8 +246,8 @@ $dadosfunc = mysqli_fetch_array($result);
                         <td><?php echo $dadosfunc['situacao'] ?></td>
                         
                         <td style="text-align: center;">
-                          <button id="btn_alterar" class="btn btn-warning" id-func="<?php echo $dadosfunc['id_funcionario']?>">Alterar</button>
-                          <button id="btn_des-ativar" class="btn btn-danger" id-matricula="<?php echo $dadosfunc['matricula'] ?>" id-situacao="<?php echo $dadosfunc['situacao']?>" id-nome="<?php echo $dadosfunc['nome'] ?>">Ativar/Desativar</button>
+                          <button id="" class="btn_alterar btn btn-warning" id-func="<?php echo $dadosfunc['id_funcionario']?>">Alterar</button>
+                          <button id="" class="btn_des-ativar btn btn-danger" id-matricula="<?php echo $dadosfunc['matricula'] ?>" id-situacao="<?php echo $dadosfunc['situacao']?>" id-nome="<?php echo $dadosfunc['nome'] ?>">Ativar/Desativar</button>
                         </td>
 
                       </tr>
@@ -327,9 +327,9 @@ $dadosfunc = mysqli_fetch_array($result);
     
     $(document).ready(function(){
       $('#alterar-custom').hide();
-    })
+    });
 
-    $("#btn_alterar").click(function(){
+    $(".btn_alterar").click(function(){
       $('#alterar-custom').show();
       
       var id_funcionario = $(this).attr("id-func");
@@ -389,7 +389,7 @@ $dadosfunc = mysqli_fetch_array($result);
     
     });
 
-    $("#btn_des-ativar").click(function(){
+    $(".btn_des-ativar").click(function(){
 
       var matricula = $(this).attr("id-matricula");
       var situacao = $(this).attr("id-situacao");
